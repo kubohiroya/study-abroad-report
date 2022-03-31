@@ -7,49 +7,46 @@
 
 ## Googleサイト
 
-* 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
+1. 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
   * https://sites.google.com/cuc.global/studyabroad2022/
 
 ## Googleスプレッドシート
 
-* 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
+1. 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
-* このスプレッドシートを、定期報告の担当の教員と編集権限で共有する。
-* このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
-* このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
+2. このスプレッドシートを、定期報告の担当の教員と編集権限で共有する。
+3. このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
+4. このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
 
 ## Googleフォーム
 
-* 定期報告用のフォームを、ひな形をもとにコピーして作成する（学内限定）。
+1. 定期報告用のフォームを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/forms/d/1aPCfcWOAecNJ-kUG3ILkMbnBTnT5I0CTIOb4Os62nxY/edit
-* このフォームのURL中のformIdを調べてメモしておく。
-* このフォームについて、必要に応じて、セクション1の選択式設問の選択肢の編集、セクション2以降の編集をする。なお、セクション1への設問の追加や削除しないこと。
-* フォームのHTMLのソースを調べて、冒頭の3つの設問の箇所の「entry.XXXXXX」という表現を探して、XXXXXの部分の数字3つをメモする。
-* このフォームの回答先を、先に作成したスプレッドシートに設定する。
+2. このフォームのURL中のformIdを調べてメモしておく。
+3. このフォームについて、必要に応じて、セクション1の選択式設問の選択肢の編集、セクション2以降の編集をする。なお、セクション1への設問の追加や削除しないこと。
+4. フォームのHTMLのソースを調べて、冒頭の3つの設問の箇所の「entry.XXXXXX」という表現を探して、XXXXXの部分の数字3つをメモする。
+5. このフォームの回答先を、先に作成したスプレッドシートに設定する。
 
 ## スプレッドシートのスクリプトの編集とclasp操作
 
-* 本リポジトリをGitHubからcloneする。
-* .clasp.jsonの内を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
-* ./src/Config.ts内を編集する
-  * spreadsheetIdを更新する。
-  * formIdを更新する。
-  * ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する。
-*　clasp pushを実行する。
-*　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
-*　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
-*　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+1. 本リポジトリをGitHubからcloneする。
+2. .clasp.jsonの内を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
+3. ./src/Config.ts内を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
+4.　clasp pushを実行する。
+5.　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
+6.　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
+7.　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
 
 ## フォームのスクリプトの編集
 
-* フォームの「スクリプトエディタ」を開いて、本リポジトリの./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
-* フォームのトリガーとして、onSubmit関数を設定する。
+1. フォームの「スクリプトエディタ」を開いて、本リポジトリの./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
+2. フォームのトリガーとして、onSubmit関数を設定する。
 
 ## リリース
 
-* Googleサイトの「埋め込み」で、ウェブアプリをデプロイしたURLを入力し、ページ上に配置する。
-* Webページを「公開」し、URLをメモする。
-* URLを関係者向けに通知する。
+1. Googleサイトの「埋め込み」で、ウェブアプリをデプロイしたURLを入力し、ページ上に配置する。
+2. Webページを「公開」し、URLをメモする。
+3. URLを関係者向けに通知する。
 
 # 運用
 
