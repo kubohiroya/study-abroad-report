@@ -5,35 +5,51 @@
 
 # 事前準備
 
-* 絵画研修の定期報告用のGoogleサイトを、ひな形をもとに作成する（学内限定）。
+## Googleサイト
+
+* 絵画研修の定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
   * https://sites.google.com/cuc.global/studyabroad2022/
 
-* 海外研修の定期報告用のスプレッドシートを、ひな形をもとに作成する（学内限定）。
+## Googleスプレッドシート
+
+* 海外研修の定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
 * このスプレッドシートを、定期報告の担当の教員と編集権限で共有する。
 * このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
 * このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
 
-* 定期報告用のフォームを、ひな形をもとに作成する（学内限定）。
+## Googleフォーム
+
+* 定期報告用のフォームを、ひな形をもとにコピーして作成する（学内限定）。
+  * https://docs.google.com/forms/d/1aPCfcWOAecNJ-kUG3ILkMbnBTnT5I0CTIOb4Os62nxY/edit
 * このフォームのURL中のformIdを調べてメモしておく。
 * このフォームについて、必要に応じて、セクション1の選択式設問の選択肢の編集、セクション2以降の編集をする。なお、セクション1への設問の追加や削除しないこと。
 * フォームのHTMLのソースを調べて、冒頭の3つの設問の箇所の「entry.XXXXXX」という表現を探して、XXXXXの部分の数字3つをメモする。
 * このフォームの回答先を、先に作成したスプレッドシートに設定する。
 
+## スプレッドシートのスクリプトの編集とclasp操作
+
 * 本リポジトリをGitHubからcloneする。
-* .clasp.jsonの内を編集し、scriptIdを更新する。
+* .clasp.jsonの内を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
 * ./src/Config.ts内を編集する
   * spreadsheetIdを更新する。
   * formIdを更新する。
   * ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する。
-* clasp pushを実行する。
-* トリガーとして、onOpen関数をスプレッドシートを開く際に、onTimer関数を1時間ごとに実行するように設定する。
-* ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+*　clasp pushを実行する。
+*　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
+*　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
+*　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+
+## フォームのスクリプトの編集
+
+* フォームの「スクリプトエディタ」を開いて、本リポジトリの./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
+* フォームのトリガーとして、onSubmit関数を設定する。
+
+## リリース
 
 * Googleサイトの「埋め込み」で、ウェブアプリをデプロイしたURLを入力し、ページ上に配置する。
-
-* フォームの「スクリプトエディタ」を開いて、./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
-* フォームのトリガーとして、onSubmit関数を設定する。
+* Webページを「公開」し、URLをメモする。
+* URLを関係者向けに通知する。
 
 # 運用
 
