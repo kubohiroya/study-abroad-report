@@ -30,12 +30,12 @@
 ## スプレッドシートのスクリプトの編集とclasp操作
 
 1. 本リポジトリをGitHubからcloneする。
-2. .clasp.jsonの内を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
-3. ./src/Config.ts内を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
-4.　clasp pushを実行する。
-5.　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
-6.　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
-7.　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+2. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
+3. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
+4. 　`yarn push`を実行する。
+5. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
+6. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
+7. 　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
 
 ## フォームのスクリプトの編集
 
