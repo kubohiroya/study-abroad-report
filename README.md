@@ -7,12 +7,12 @@
 
 ## Googleサイト
 
-* 絵画研修の定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
+* 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
   * https://sites.google.com/cuc.global/studyabroad2022/
 
 ## Googleスプレッドシート
 
-* 海外研修の定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
+* 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
 * このスプレッドシートを、定期報告の担当の教員と編集権限で共有する。
 * このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
