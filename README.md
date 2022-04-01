@@ -27,17 +27,21 @@
 4. フォームのHTMLのソースを調べて、冒頭の3つの設問の箇所の「entry.XXXXXX」という表現を探して、XXXXXの部分の数字3つをメモする。
 5. このフォームの回答先を、先に作成したスプレッドシートに設定する。
 
-## スプレッドシートのスクリプトの編集とclasp操作
+## スプレッドシートのスクリプトの編集・clasp操作
 
-1. 本リポジトリをGitHubからcloneする。
-2. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
-3. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
-4. 　`yarn push`を実行する。
-5. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
-6. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
-7. 　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+1. 本リポジトリをGitHubからgit cloneする。
+2. `yarn install` を実行する。
+3. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
+4. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
+5. 　`yarn push`　を実行する。
 
-## フォームのスクリプトの編集
+## スプレッドシートのスクリプトのトリガー設定・デプロイ
+
+1. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onOpen関数を、スプレッドシートを開く際のトリガーとして設定する。
+2. 　Googleスプレッドシートのコンテナバウンドスクリプトで、onTimer関数を、1時間ごとに実行するトリガーとして設定する。
+3. 　Googleスプレッドシートのコンテナバウンドスクリプトで、doGet関数を、ウェブアプリとして新規デプロイし、デプロイ先のURLをメモする。
+
+## フォームのスクリプトの編集・トリガー設定
 
 1. フォームの「スクリプトエディタ」を開いて、本リポジトリの./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
 2. フォームのトリガーとして、onSubmit関数を設定する。
