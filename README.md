@@ -5,6 +5,12 @@
 
 # 事前準備
 
+## 開発環境の準備
+
+1. gitをインストールする。
+2. nodeをインストールする。
+3. yarnをインストールする。
+
 ## Googleサイト
 
 1. 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
@@ -27,13 +33,18 @@
 4. フォームのHTMLのソースを調べて、冒頭の3つの設問の箇所の「entry.XXXXXX」という表現を探して、XXXXXの部分の数字3つをメモする。
 5. このフォームの回答先を、先に作成したスプレッドシートに設定する。
 
+## Google Apps Script APIの有効化
+
+1. https://script.google.com/home/usersettings　から、Google Apps Script APIを有効化する。
+
 ## スプレッドシートのスクリプトの編集・clasp操作
 
 1. 本リポジトリをGitHubからgit cloneする。
 2. `yarn install` を実行する。
-3. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
-4. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
-5. 　`yarn push`　を実行する。
+3. `clasp login --no-localhost` を実行する。表示される指示に従ってGoogleアカウントでの認証をする。
+4. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
+5. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
+6. 　`yarn push`　を実行する。
 
 ## スプレッドシートのスクリプトのトリガー設定・デプロイ
 
