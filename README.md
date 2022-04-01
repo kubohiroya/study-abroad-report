@@ -11,12 +11,12 @@
 2. nodeをインストールする。
 3. yarnをインストールする。
 
-## Googleサイト
+## Googleサイトの作成
 
 1. 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
   * https://sites.google.com/cuc.global/studyabroad2022/
 
-## Googleスプレッドシート
+## Googleスプレッドシートの作成
 
 1. 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
@@ -24,7 +24,7 @@
 3. このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
 4. このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
 
-## Googleフォーム
+## Googleフォームの作成
 
 1. 定期報告用のフォームを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/forms/d/1aPCfcWOAecNJ-kUG3ILkMbnBTnT5I0CTIOb4Os62nxY/edit
