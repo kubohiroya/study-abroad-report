@@ -35,7 +35,8 @@
 
 ## Google Apps Script APIの有効化
 
-1. https://script.google.com/home/usersettings　から、Google Apps Script APIを有効化する。
+1. 次のURLを開き、Google Apps Script APIを有効化する。 
+  * https://script.google.com/home/usersettings　　　
 
 ## スプレッドシートのスクリプトの編集・clasp操作
 
