@@ -26,36 +26,6 @@ export class LogSheetModule {
     });
   }
 
-  /*
-  static createHolder(map: LogHolder<Log[]| {[email: string]: Log}>, ayear: string, studyAt: string, reportNum: string, holder: Log[] | {[email: string]: Log}): Log[] | {[email: string]: Log}{
-    if(! map[ayear]){
-      map[ayear] = {};
-    }
-    if(! map[ayear][studyAt]){
-      map[ayear][studyAt] = {};
-    }
-    if(! map[ayear][studyAt][reportNum]){
-      map[ayear][studyAt][reportNum] = holder;
-    }
-    return map[ayear][studyAt][reportNum];
-  }
-  static createHolderAsMap(map: LogHolder<{[email: string]: Log}>, email: string, ayear: string, studyAt: string, reportNum: string): {[email: string]: Log}{
-    if(! map[email]){
-      map[email] = {};
-    }
-    if(! map[email][ayear]){
-      map[email][ayear] = {};
-    }
-    if(! map[email][ayear][studyAt]){
-      map[email][ayear][studyAt] = {};
-    }
-    if(! map[email][ayear][studyAt][reportNum]){
-      map[email][ayear][studyAt][reportNum] = {};
-    }
-    return map[email][ayear][studyAt][reportNum];
-  }
-*/
-
   static getLogArrayMap(map: LogHolder<{ [email: string]: Log[] }>, ayear: string, studyAt: string, reportNum: string) {
     return map[ayear] &&
       map[ayear][studyAt] &&
@@ -78,27 +48,6 @@ export class LogSheetModule {
     }
     return map[ayear][studyAt][reportNum][email];
   }
-
-  /*
-  static getItemsByEmail(activeUserEmail: string){
-    const ret = {};
-    LogSheetModule.getRows([activeUserEmail]).forEach((row)=>{
-      const [timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
-        healthStatus, healthMemo,
-        attendStatus, absentReason,
-        studySelfReview, studyPhoto,
-        personalLifeSelfReview, personalLifePhoto] = row;
-      LogSheetModule.createHolderAsMap(ret, email, ayear, studyAt, reportNum )[email] = {
-        timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
-        healthStatus, healthMemo,
-        attendStatus, absentReason,
-        studySelfReview, studyPhoto,
-        personalLifeSelfReview, personalLifePhoto
-      };
-    });
-    return ret;
-  }
-*/
 
   static createLogHolder(emailArray: string[]) {
     const ret = {};

@@ -9,12 +9,14 @@ export function doGet(req: { parameters: any }) {
   const activeUserEmail = Session.getActiveUser().getEmail();
 
   const htmlTemplate = HtmlService.createTemplateFromFile("index");
-  const bodyTemplate = HtmlService.createTemplateFromFile("body");
   const faviconUrl = `https://drive.google.com/uc?id=${Config.faviconId}&.png`;
 
-  const title = dashboard(activeUserEmail, req.parameters, bodyTemplate);
-  htmlTemplate.body = bodyTemplate.evaluate().getContent();
-  return htmlTemplate.evaluate().setTitle(title).setFaviconUrl(faviconUrl);
+  const reportTemplate = HtmlService.createTemplateFromFile("reports");
+  reports(activeUserEmail, req.parameters, reportTemplate);
+  htmlTemplate.body = reportTemplate.evaluate().getContent();
+
+  return htmlTemplate.evaluate().setTitle(htmlTemplate.title).setFaviconUrl(faviconUrl);
+
 }
 
 export function include(filename: string) {
@@ -38,9 +40,9 @@ function getMembers(targetUserEmail: string, studentAccountId: string | undefine
   }
 }
 
-function dashboard(activeUserEmail: string,
-                   parameters: { query?: string, student?: string },
-                   bodyTemplate: HtmlTemplate): string {
+function reports(activeUserEmail: string,
+                 parameters: { query?: string, student?: string },
+                 bodyTemplate: HtmlTemplate): void {
 
   const members = getMembers(activeUserEmail, parameters.student);
   const ayearStudyAtSet = Array.from(new Set(members.map(member => member.ayear + "\t" + member.studyAt))).sort();
@@ -57,14 +59,14 @@ function dashboard(activeUserEmail: string,
     const user = members[0];
     if (parameters.query) {
       bodyTemplate.query = parameters.query || "all";
-      return parameters.query === 'all' ? ("提出内容一覧：" + user.displayName) : ("提出内容：" + user.displayName);
+      bodyTemplate.title = parameters.query === 'all' ? ("提出内容一覧：" + user.displayName) : ("提出内容：" + user.displayName);
     } else {
       bodyTemplate.query = "";
-      return "提出状況一覧：" + user.displayName;
+      bodyTemplate.title = "提出状況一覧：" + user.displayName;
     }
   } else if (members.length > 1) {
     bodyTemplate.query = "";
-    return "担当する学生達の提出状況一覧";
+    bodyTemplate.title = "担当する学生達の提出状況一覧";
   } else {
     throw new Error("no member!");
   }

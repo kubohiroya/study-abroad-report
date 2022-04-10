@@ -3,7 +3,6 @@ export class Config {
   static faviconId = '1L-SAiTlMLNnrw6VvhDpMoqJqBCUaBQeF';
   static dashboardUrl = 'https://sites.google.com/cuc.global/studyabroad2022';
 
-  static formId = '1FAIpQLScIHqT3rrNXHnSnTzDJqW-aiFA8uXnS0iPwA8i6K7FOzDaBYQ';
   static ayearEntryId = 228192827;
   static studyAtEntryId = 1956434279;
   static reportNumEntryId = 1865246731;
@@ -25,6 +24,14 @@ export class Config {
   static COLINDEX_MAILTEMPLATE_NAME = 0;
   static COLINDEX_MAILTEMPLATE_SUBJECT = 1;
   static COLINDEX_MAILTEMPLATE_BODY = 2;
+
+  static COLINDEX_CONFIG_KEY = 0;
+  static COLINDEX_CONFIG_VALUE = 1;
+  // dashboardUrl
+  // formId
+  // ayearEntryId
+  // studyAtEntryId
+  // reportNumEntryId
 
   static domain = "cuc.global";
   static teamsDomain = "cuc.ac.jp";
