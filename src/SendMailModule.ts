@@ -15,10 +15,10 @@ export class SendMailModule {
 
     const scheduleItems = new ScheduleSheetModule().getItemsByDate(date);
 
-    const logs = LogSheetModule.createLogHolder([]);
-
+    const logs = new LogSheetModule().createLogHolder([]);
+    const mailTemplateSheetModule = new MailTemplateSheetModule();
     scheduleItems.forEach((item) => {
-      const template = MailTemplateSheetModule.getMailSubjectAndBody(item);
+      const template = mailTemplateSheetModule.getMailSubjectAndBody(item);
       if (!template) {
         return;
       }

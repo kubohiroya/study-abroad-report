@@ -5,13 +5,18 @@ import {Config} from './Config';
 
 export class LogSheetModule {
 
-  static getRows(emailArray: string[]) {
+  logRows: any[][];
+
+  constructor() {
     const logSheet = ActiveSpreadsheet.logSheet;
     if (!logSheet) {
       throw new Error("Not found sheet 'log'");
     }
-    const logRows = logSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
-    return logRows.filter((row: any[]) => emailArray.length === 0 || emailArray.includes(row[Config.COLINDEX_LOGSHEET_EMAIL])).sort((a: any[], b: any[]) => {
+    this.logRows = logSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
+  }
+
+  getRows(emailArray: string[]) {
+    return this.logRows.filter((row: any[]) => emailArray.length === 0 || emailArray.includes(row[Config.COLINDEX_LOGSHEET_EMAIL])).sort((a: any[], b: any[]) => {
       const test = [
         a[Config.COLINDEX_LOGSHEET_STUDYAT] - b[Config.COLINDEX_LOGSHEET_STUDYAT],
         a[Config.COLINDEX_LOGSHEET_REPORTNUM] - b[Config.COLINDEX_LOGSHEET_REPORTNUM],
@@ -49,9 +54,9 @@ export class LogSheetModule {
     return map[ayear][studyAt][reportNum][email];
   }
 
-  static createLogHolder(emailArray: string[]) {
+  createLogHolder(emailArray: string[]) {
     const ret = {};
-    LogSheetModule.getRows(emailArray).forEach((row) => {
+    this.getRows(emailArray).forEach((row) => {
       const [timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
         healthStatus, healthMemo,
         attendStatus, absentReason,

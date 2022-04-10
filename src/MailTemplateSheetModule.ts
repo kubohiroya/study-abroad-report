@@ -3,12 +3,19 @@ import {Schedule} from './Schedule';
 import {Config} from './Config';
 
 export class MailTemplateSheetModule {
-  static _getMailResource(name: string) {
+
+  mailTemplateRows: any[][];
+
+  constructor() {
     const sheet = ActiveSpreadsheet.spreadsheet.getSheetByName("mailTemplate");
     if (!sheet) {
       throw new Error("Not found: Sheet 'mailTemplate'");
     }
-    const ret = sheet.getDataRange().getValues().filter(row => row[0] === name).map((row) => {
+    this.mailTemplateRows = sheet.getDataRange().getValues()
+  }
+
+  getMailResource(name: string) {
+    const ret = this.mailTemplateRows.filter(row => row[0] === name).map((row) => {
       const [name, subject, body] = [
         row[Config.COLINDEX_MAILTEMPLATE_NAME],
         row[Config.COLINDEX_MAILTEMPLATE_SUBJECT],
@@ -25,18 +32,18 @@ export class MailTemplateSheetModule {
     }
   }
 
-  static getMailSubjectAndBody(item: Schedule) {
+  getMailSubjectAndBody(item: Schedule) {
     if (item.startedJustNow) {
-      return MailTemplateSheetModule._getMailResource("startedJustNow");
+      return this.getMailResource("startedJustNow");
     }
     if (item.endInOneDay) {
-      return MailTemplateSheetModule._getMailResource("endInOneDay");
+      return this.getMailResource("endInOneDay");
     }
     if (item.endedJustNow) {
-      return MailTemplateSheetModule._getMailResource("endedJustNow");
+      return this.getMailResource("endedJustNow");
     }
     if (item.endedOneDayAgo) {
-      return MailTemplateSheetModule._getMailResource("endedOneDayAgo");
+      return this.getMailResource("endedOneDayAgo");
     }
     return null;
   }

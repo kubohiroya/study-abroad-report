@@ -16,6 +16,21 @@ export class MemberSheetModule {
     this.memberRows = ActiveSpreadsheet.memberSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
   }
 
+  static getAccountId(email: string) {
+    return email.indexOf('@') > 0 ? email.split('@')[0] : email;
+  }
+
+  static createStudent(row: Array<string>): Member {
+    const [ayear, studentId, accountId, displayName, studyAt, teacher, memo, checklists, goals] = row;
+    const teacherAccountId = MemberSheetModule.getAccountId(teacher);
+    return {
+      ayear, studentId, accountId, displayName, studyAt, teacher,
+      teacherAccountId,
+      teacherEmail: teacherAccountId + '@' + Config.teamsDomain,
+      checklists, goals
+    };
+  }
+
   getStudent(activeUserEmail: string): Member | null {
     const accountId = MemberSheetModule.getAccountId(activeUserEmail);
     const members = this.memberRows.filter((row: any[]) => row[Config.COLINDEX_MEMBER_ACCOUNTID] === accountId).map((row: any[]) => {
@@ -38,21 +53,6 @@ export class MemberSheetModule {
     return this.memberRows.filter((row: any[]) => row[Config.COLINDEX_MEMBER_TEACHER] == teacherEmail).map((row: any[]) => {
       return MemberSheetModule.createStudent(row);
     }).sort((a, b) => a.studentId < b.studentId ? -1 : 1);
-  }
-
-  static createStudent(row: Array<string>): Member {
-    const [ayear, studentId, accountId, displayName, studyAt, teacher, memo, checklists, goals] = row;
-    const teacherAccountId = MemberSheetModule.getAccountId(teacher);
-    return {
-      ayear, studentId, accountId, displayName, studyAt, teacher,
-      teacherAccountId,
-      teacherEmail: teacherAccountId + '@' + Config.teamsDomain,
-      checklists, goals
-    };
-  }
-
-  static getAccountId(email: string) {
-    return email.indexOf('@') > 0 ? email.split('@')[0] : email;
   }
 
   getMemberMap() {

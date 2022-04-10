@@ -47,7 +47,7 @@ function reports(activeUserEmail: string,
   const members = getMembers(activeUserEmail, parameters.student);
   const ayearStudyAtSet = Array.from(new Set(members.map(member => member.ayear + "\t" + member.studyAt))).sort();
   const scheduleHolder = new ScheduleSheetModule().getItemMap(ayearStudyAtSet);
-  const reports = LogSheetModule.createLogHolder(members.map(member => member.accountId + "@" + Config.domain));
+  const reports = new LogSheetModule().createLogHolder(members.map(member => member.accountId + "@" + Config.domain));
 
   bodyTemplate.activeUserEmail = activeUserEmail;
   bodyTemplate.activeUserAccountId = activeUserEmail.split("@")[0];
