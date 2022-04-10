@@ -11,9 +11,9 @@ export class SendMailModule {
 
   static sendCustomizedMailsByDate(date: Date) {
 
-    let studentMap = MemberSheetModule.getMemberMap();
+    let studentMap = new MemberSheetModule().getMemberMap();
 
-    const scheduleItems = ScheduleSheetModule.getItemsByDate(date);
+    const scheduleItems = new ScheduleSheetModule().getItemsByDate(date);
 
     const logs = LogSheetModule.createLogHolder([]);
 

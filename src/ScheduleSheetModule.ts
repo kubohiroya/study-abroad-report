@@ -7,6 +7,15 @@ import {SpreadsheetModule} from './SpreadsheetModules';
 
 export class ScheduleSheetModule {
 
+  scheduleRows: any[][];
+
+  constructor() {
+    if (!ActiveSpreadsheet.scheduleSheet) {
+      throw new Error("Not found sheet 'schedule'");
+    }
+    this.scheduleRows = ActiveSpreadsheet.scheduleSheet.getDataRange().getValues().filter((row, index) => index > 0 && row[0]);
+  }
+
   static updateScheduleCellValues() {
     if (!ActiveSpreadsheet.scheduleSheet) {
       throw new Error("Not found sheet 'schedule'");
@@ -22,19 +31,15 @@ export class ScheduleSheetModule {
     ActiveSpreadsheet.spreadsheet.setActiveSheet(ActiveSpreadsheet.scheduleSheet);
   }
 
-  static getItemMap(ayearStudyAtArray: Array<string>): ScheduleHolder {
-    if (!ActiveSpreadsheet.scheduleSheet) {
-      throw new Error("Not found sheet 'schedule'");
-    }
+  getItemMap(ayearStudyAtArray: Array<string>): ScheduleHolder {
     const ret: ScheduleHolder = {};
     const nowTime = new Date().getTime();
-    const scheduleRows = ActiveSpreadsheet.scheduleSheet.getDataRange().getValues().filter((row, index) => index > 0 && row[0]);
     const formUrl = ActiveSpreadsheet.spreadsheet.getFormUrl();
     if (!formUrl) {
       throw new Error("invalid form");
     }
 
-    scheduleRows.filter((row) => {
+    this.scheduleRows.filter((row) => {
       const ayearStudyAt = row[Config.COLINDEX_SCHEDULESHEET_AYEAR] + "\t" + row[Config.COLINDEX_SCHEDULESHEET_STUDYAT];
       return ayearStudyAtArray.includes(ayearStudyAt);
     }).forEach(row => {
@@ -66,18 +71,14 @@ export class ScheduleSheetModule {
     return ret;
   }
 
-  static getItemsByDate(now: Date): Array<Schedule> {
-    if (!ActiveSpreadsheet.scheduleSheet) {
-      throw new Error("Not found sheet 'schedule'");
-    }
+  getItemsByDate(now: Date): Array<Schedule> {
     const hour = 1000 * 60 * 60;
     const nowTime = now.getTime();
-    const scheduleRows = ActiveSpreadsheet.scheduleSheet.getDataRange().getValues().filter((row, index) => index > 0 && row[0]);
     const formUrl = ActiveSpreadsheet.spreadsheet.getFormUrl();
     if (!formUrl) {
       throw new Error('invalid form');
     }
-    return scheduleRows.map((row) => {
+    return this.scheduleRows.map((row) => {
       const [ayear, studyAt, itemName, startYear, endYear, timeZone,
         _reportNum, _startMM, _startDD, _endMM, _endDD,
         reportNum, start, end,
