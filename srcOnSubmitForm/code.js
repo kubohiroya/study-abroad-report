@@ -2,6 +2,7 @@ const form = FormApp.getActiveForm();
 const spreadsheetId = form.getDestinationId();
 const gid = SpreadsheetApp.openById(spreadsheetId).getSheetByName("学生・回ごと提出内容").getSheetId();
 const spreadsheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=${gid}`; // 384349305
+const webappUrl = 'https://script.google.com/a/macros/cuc.global/s/AKfycbyURTJL4aCPiMYiEa7OwGLdMdOMp4Rked2QW3DsuSXo/dev';
 const DEBUG = false;
 const from = 'CUC-FGS';
 
@@ -72,8 +73,11 @@ function onSubmit(ev) {
     const rowStart = 2 + (memberIndex - 1) * 6;
     const rowEnd = rowStart + 5;
 
-    const labels = ['ayear', 'studentId', 'displayName', 'studyAt', 'reportNum', 'spreadsheetUrl'];
-    const values = [ayear, studentId, displayName, studyAt, reportNum, `${spreadsheetUrl}&range=${rowStart}:${rowEnd}`];
+    const labels = ['ayear', 'studentId', 'displayName', 'studyAt', 'reportNum', 'spreadsheetUrl', 'webappUrl'];
+    const values = [ayear, studentId, displayName, studyAt, reportNum,
+        `${spreadsheetUrl}&range=${rowStart}:${rowEnd}`,
+        '${webappUrl}?student=${accountId}'
+    ];
     const [subject, body] = StringUtil.replaceAll([subjectTemplate, bodyTemplate], labels, values);
     const options = {
         name: from,
@@ -87,3 +91,4 @@ function onSubmit(ev) {
 
     MailApp.sendEmail(teacher, subject, body, options);
 }
+
