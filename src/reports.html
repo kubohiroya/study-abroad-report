@@ -29,6 +29,35 @@
     </button>
     <hr/>
     <?}?>
+    <? if(!query && activeUserAccountId !== member.accountId){ ?>
+    <button onclick="window.open('https://teams.microsoft.com/l/chat/0/0?users=<?=member.accountId ?>@st.cuc.ac.jp')"
+            type="button">
+        <span class="material-icons">question_answer</span>
+        この学生(<?= member.accountId ?>)とチャットする
+    </button>
+    <?}?>
+
+    <h3>
+        <a onclick="alert('オンライン留学中の「絶対実行」チェックリストを3項目以上、「絶対禁止」チェックリストを3項目以上を考えて決める\n\n'+
+        '期限: 2月17日 23:59')">
+            チェックリスト(絶対実行・絶対禁止)
+        </a>
+    </h3>
+    <p class="submissions">
+        <?!= member.checklists ? sanitize(member.checklists) : "未提出" ?>
+    </p>
+
+    <h3>
+        <a onclick="alert('(1) あなたが留学中に伸ばしたい力・積みたい経験はどんなのものですか。\n'+
+'(2) 留学中に挑戦したいことは何ですか。\n'+
+'(3) 挑戦したことの成果や結果をどう記録に残しますか。\n'+
+'(4) 「留学と就活の接続プログラム」の一連の流れを通じて、あなたが取り組み学んだ内容のうち、特に印象に残ったことは何ですか。またそれは何故ですか。\n\n'+
+'期限: 3月27日 23:59')">
+            課題(1)〜(4)</a>
+    </h3>
+    <p class="submissions">
+        <?!= member.goals? sanitize(member.goals) : "未提出" ?>
+    </p>
 
     <? Object.keys(schedules).forEach(ayear=>{
     Object.keys(schedules[ayear]).forEach(studyAt=>{

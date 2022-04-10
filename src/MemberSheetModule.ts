@@ -50,12 +50,13 @@ export class MemberSheetModule {
   }
 
   static createStudent(row: Array<string>): Member {
-    const [ayear, studentId, accountId, displayName, studyAt, teacher] = row;
+    const [ayear, studentId, accountId, displayName, studyAt, teacher, memo, checklists, goals] = row;
     const teacherAccountId = MemberSheetModule.getAccountId(teacher);
     return {
       ayear, studentId, accountId, displayName, studyAt, teacher,
       teacherAccountId,
-      teacherEmail: teacherAccountId + '@' + Config.teamsDomain
+      teacherEmail: teacherAccountId + '@' + Config.teamsDomain,
+      checklists, goals
     };
   }
 
