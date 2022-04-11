@@ -21,8 +21,7 @@
 1. 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
   * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
 2. このスプレッドシートを、定期報告の担当の教員と編集権限で共有する。
-3. このスプレッドシートのURL中のspreadsheetIdを調べてメモしておく。
-4. このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
+3. このスプレッドシートのコンテナバウンドスクリプトのスクリプトエディタを開き、URL中のscriptIdを調べてメモしておく。
 
 ## Googleフォームの作成
 
@@ -44,8 +43,7 @@
 2. `yarn install` を実行する。
 3. `clasp login --no-localhost` を実行する。表示される指示に従ってGoogleアカウントでの認証をする。
 4. リポジトリ内の .clasp.json を編集し、先にメモしておいたGoogleスプレッドシートのコンテナバウンドスクリプトのscriptIdを更新する。
-5. リポジトリ内の ./src/Config.ts を編集する(spreadsheetId　と　formId　と ayearEntryId, studyAtEntryId, reportNumEntryIdを更新する)。
-6. 　`yarn push`　を実行する。
+5. 　`yarn push`　を実行する。
 
 ## スプレッドシートのスクリプトのトリガー設定・デプロイ
 
@@ -58,11 +56,20 @@
 1. フォームの「スクリプトエディタ」を開いて、本リポジトリの./srcOnSubmitForm内のappscript.jsonとcode.gsをもとに、GoogleAppsScriptのファイルとして作成する。
 2. フォームのトリガーとして、onSubmit関数を設定する。
 
+## スプレッドシートのconfigシートでの設定
+
+1. formId　として、 定期報告用のフォームのformIdを記入する。
+2. dashboardUrlとして,  定期報告用のGoogleサイトのURLを記入する。
+3. ayearEntryId として、フォームのHTMLのソース内の、履修年次の設問のentryの数値を記入する。
+4. studyAtEntryId として、フォームのHTMLのソース内の、研修先の設問のentryの数値を記入する。
+5. reportNumEntryId として、フォームのHTMLのソース内の、報告回の設問の「entry.XXXXXX」のXXXXX部分の数値を記入する。
+6. webappUrlとして、Googleスプレッドシートのコンテナバウンドスクリプトを新規デプロイしたデプロイ先URLを記入する。
+
 ## リリース
 
 1. Googleサイトの「埋め込み」で、ウェブアプリをデプロイしたURLを入力し、ページ上に配置する。
-2. Webページを「公開」し、URLをメモする。
-3. URLを関係者向けに通知する。
+2. Webページを「公開」する。
+3. WebページのURLを関係者向けに通知する。
 
 # 運用
 
