@@ -5,9 +5,9 @@ import {LogSheetModule} from './LogSheetModule';
 import {Config} from './Config';
 import {StringUtil} from './StringUtil';
 import {MailTemplateSheetModule} from './MailTemplateSheetModule';
+import {LogHolderModule} from './LogHolder';
 
 export class SendMailModule {
-  private static MailTemplateSheetModule: any;
 
   static sendCustomizedMailsByDate(date: Date) {
 
@@ -15,16 +15,16 @@ export class SendMailModule {
 
     const scheduleItems = new ScheduleSheetModule().getItemsByDate(date);
 
-    const logs = new LogSheetModule().createLogHolder([]);
+    const logs = new LogSheetModule().getLogHolderByEmails([]);
     const mailTemplateSheetModule = new MailTemplateSheetModule();
     scheduleItems.forEach((item) => {
-      const template = mailTemplateSheetModule.getMailSubjectAndBody(item);
+      const template = mailTemplateSheetModule.getMailTemplate(item);
       if (!template) {
         return;
       }
       const ayearStudyAt = `${item.ayear}\t${item.studyAt}`;
 
-      const reportSubmittedStudents = LogSheetModule.getLogArrayMap(logs, item.ayear, item.studyAt, item.reportNum);
+      const reportSubmittedStudents = LogHolderModule.getLogsMap(logs, item.ayear, item.studyAt, item.reportNum);
       const reportMissedStudents = studentMap[ayearStudyAt].filter((student: Member) => !reportSubmittedStudents || !reportSubmittedStudents[student.accountId + '@' + Config.domain]);
 
       if (reportMissedStudents.length == 0) {

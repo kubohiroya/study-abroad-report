@@ -7,9 +7,6 @@ export class MemberSheetModule {
   memberRows: any[][];
 
   constructor() {
-    if (!ActiveSpreadsheet.logSheet) {
-      throw new Error("Not found sheet 'log'");
-    }
     if (!ActiveSpreadsheet.memberSheet) {
       throw new Error("Not found sheet 'member'");
     }
@@ -49,7 +46,7 @@ export class MemberSheetModule {
     return this.memberRows.some((row: any[]) => row[Config.COLINDEX_MEMBER_TEACHER] == activeUserEmail);
   }
 
-  getStudentArray(teacherEmail: string): Member[] {
+  getAdvisingStudentArray(teacherEmail: string): Member[] {
     return this.memberRows.filter((row: any[]) => row[Config.COLINDEX_MEMBER_TEACHER] == teacherEmail).map((row: any[]) => {
       return MemberSheetModule.createStudent(row);
     }).sort((a, b) => a.studentId < b.studentId ? -1 : 1);

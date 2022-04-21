@@ -12,7 +12,6 @@ export type Schedule = {
   endJST: Date;
   prefilledUrl: string;
   isNow: boolean;
-  isDelayed: boolean;
 
   startedJustNow?: boolean;
   endInOneDay?: boolean;

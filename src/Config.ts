@@ -1,11 +1,11 @@
-export class Config {
-  static spreadsheetId = '1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8';
-  static faviconId = '1L-SAiTlMLNnrw6VvhDpMoqJqBCUaBQeF';
-  static dashboardUrl = 'https://sites.google.com/cuc.global/studyabroad2022';
+import {ActiveSpreadsheet} from './ActiveSpreadsheet';
 
-  static ayearEntryId = 228192827;
-  static studyAtEntryId = 1956434279;
-  static reportNumEntryId = 1865246731;
+export class Config {
+  static faviconId = ActiveSpreadsheet.config.get('faviconId');
+  static dashboardUrl = ActiveSpreadsheet.config.get('dashboardUrl');
+  static ayearEntryId = ActiveSpreadsheet.config.get('ayearEntryId');
+  static studyAtEntryId = ActiveSpreadsheet.config.get('studyAtEntryId');
+  static reportNumEntryId = ActiveSpreadsheet.config.get('reportNumEntryId');
 
   static COLINDEX_MEMBER_AYEAR = 0; // memberシートの0スタートで0カラム目が「ayear」
   static COLINDEX_MEMBER_ACCOUNTID = 2; // memberシートの0スタートで2カラム目が「accountId」
@@ -24,14 +24,6 @@ export class Config {
   static COLINDEX_MAILTEMPLATE_NAME = 0;
   static COLINDEX_MAILTEMPLATE_SUBJECT = 1;
   static COLINDEX_MAILTEMPLATE_BODY = 2;
-
-  static COLINDEX_CONFIG_KEY = 0;
-  static COLINDEX_CONFIG_VALUE = 1;
-  // dashboardUrl
-  // formId
-  // ayearEntryId
-  // studyAtEntryId
-  // reportNumEntryId
 
   static domain = "cuc.global";
   static teamsDomain = "cuc.ac.jp";

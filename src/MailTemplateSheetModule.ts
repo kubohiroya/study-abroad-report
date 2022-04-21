@@ -7,15 +7,14 @@ export class MailTemplateSheetModule {
   mailTemplateRows: any[][];
 
   constructor() {
-    const sheet = ActiveSpreadsheet.spreadsheet.getSheetByName("mailTemplate");
-    if (!sheet) {
-      throw new Error("Not found: Sheet 'mailTemplate'");
+    if (!ActiveSpreadsheet.mailTemplateSheet) {
+      throw new Error("Not found sheet 'mailTemplate'");
     }
-    this.mailTemplateRows = sheet.getDataRange().getValues()
+    this.mailTemplateRows = ActiveSpreadsheet.mailTemplateSheet.getDataRange().getValues()
   }
 
-  getMailResource(name: string) {
-    const ret = this.mailTemplateRows.filter(row => row[0] === name).map((row) => {
+  getMailTemplateByName(templateName: string) {
+    const ret = this.mailTemplateRows.filter(row => row[0] === templateName).map((row) => {
       const [name, subject, body] = [
         row[Config.COLINDEX_MAILTEMPLATE_NAME],
         row[Config.COLINDEX_MAILTEMPLATE_SUBJECT],
@@ -28,22 +27,22 @@ export class MailTemplateSheetModule {
     if (ret.length == 1) {
       return ret[0];
     } else {
-      throw new Error("Not found: mailTemplate: " + name);
+      throw new Error("Not found: mailTemplate: " + templateName);
     }
   }
 
-  getMailSubjectAndBody(item: Schedule) {
+  getMailTemplate(item: Schedule) {
     if (item.startedJustNow) {
-      return this.getMailResource("startedJustNow");
+      return this.getMailTemplateByName("startedJustNow");
     }
     if (item.endInOneDay) {
-      return this.getMailResource("endInOneDay");
+      return this.getMailTemplateByName("endInOneDay");
     }
     if (item.endedJustNow) {
-      return this.getMailResource("endedJustNow");
+      return this.getMailTemplateByName("endedJustNow");
     }
     if (item.endedOneDayAgo) {
-      return this.getMailResource("endedOneDayAgo");
+      return this.getMailTemplateByName("endedOneDayAgo");
     }
     return null;
   }

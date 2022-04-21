@@ -1,11 +1,10 @@
 import {StringUtil} from './StringUtil';
 import {DriveUtil} from './DriveUtil';
-// import {DateUtil} from './DateUtil';
-import {LogSheetModule} from './LogSheetModule';
 import {ScheduleSheetModule} from './ScheduleSheetModule';
 import {doGet, include} from './doGet';
 import {onOpen} from './onOpen';
 import {onTimer} from './onTimer';
+import {LogHolderModule} from './LogHolder';
 
 declare const global: {
   [key: string]: unknown;
@@ -14,7 +13,7 @@ declare const global: {
 global.doGet = doGet;
 global.onOpen = onOpen;
 global.onTimer = onTimer;
-global.getLogArray = LogSheetModule.getLogArray;
+global.getLogs = LogHolderModule.getLogs;
 global.getDriveFileHTML = DriveUtil.getDriveFileHTML;
 global.sanitize = StringUtil.sanitize;
 global.updateScheduleCellValues = ScheduleSheetModule.updateScheduleCellValues;

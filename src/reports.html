@@ -9,7 +9,7 @@
             定期報告
         </h2>
         <p>
-            「定期報告」は、2週間に1回、指定された報告回ごとの提出開始日から提出期限までの間に実施してください。
+            「定期報告」は、2週間に1回、指定された報告回ごとの提出開始から提出期限までの間に実施してください。
         </p>
         <p>
             急を要すると判断されるような事柄、困ったことや相談したいことについては、「留学生サポートデスク」等に連絡をして対応するとともに、
@@ -33,7 +33,7 @@
         </button>
         <hr/>
         <?}?>
-        <? if(!query && activeUserAccountId !== member.accountId){ ?>
+        <? if(activeUserAccountId !== member.accountId){ ?>
         <button onclick="window.open('https://teams.microsoft.com/l/chat/0/0?users=<?=member.accountId ?>@st.cuc.ac.jp')"
                 type="button">
             <span class="material-icons">question_answer</span>
@@ -67,20 +67,18 @@
         Object.keys(schedules[ayear]).forEach(studyAt=>{
         const items = schedules[ayear][studyAt];
         if(member.ayear !== ayear || member.studyAt !== studyAt) return;
+        const url = ScriptApp.getService().getUrl() +
+        ( (activeUserAccountId === member.accountId)? '?' : `?student=${member.accountId}&`) +
+        'query=all';
         ?>
         <h3>
             <span class="material-icons">travel_explore</span>
             <?= items[0].ayear ?> <?= items[0].studyAt?> 研修の定期報告
-            <? if(!query){
-      const url = ScriptApp.getService().getUrl() +
-        ( (activeUserAccountId === member.accountId)? '?' : `?student=${member.accountId}&`) +
-        'query=all';
-    ?>
             <button onclick="window.open('<?= url ?>')">
                 提出済みの報告書を一覧表示する
                 <span class="material-icons">launch</span>
             </button>
-            <? } ?>
+
         </h3>
         <table>
             <thead>
@@ -94,12 +92,13 @@
             </thead>
             <tbody>
             <? items.forEach((item,index)=>{
-            const reportArray = getLogArray(reports, item.ayear, item.studyAt, item.reportNum,
+            const reportArray = getLogs(reports, item.ayear, item.studyAt, item.reportNum,
             member.accountId+'@cuc.global');
             const matchedReports = reportArray.sort((a,b)=>a.timestamp - b.timestamp).reverse();
             const matchedReport = matchedReports && matchedReports[0];
 
             if(! query || query == "all" || (matchedReport && matchedReport.timestamp.getTime() == query)){
+            const isDelayed = matchedReport && item.endJST.getTime() < matchedReport.timestamp.getTime();
             ?>
             <tr>
                 <th>
@@ -126,20 +125,20 @@
                 <? if(matchedReport){ ?>
                 <td>
                     <div class="itemBody">
-                        <a href="<?= ScriptApp.getService().getUrl() ?>?query=<?= matchedReport.timestamp.getTime() ?>"
+                        <a href="<?= ScriptApp.getService().getUrl() ?>?query=<?= matchedReport.timestamp.getTime() ?>&student=<?= matchedReport.email.split('@')[0] ?>"
                            target="_blank">
                             <span class="material-icons">check</span>
                             提出済み: <?=
-                  Utilities.formatDate(matchedReport.timestamp,
-                    item.timeZone,
-                    "yyyy-MM-dd HH:mm:ss")
-                ?>
+                      Utilities.formatDate(matchedReport.timestamp,
+                        item.timeZone,
+                        "yyyy-MM-dd HH:mm:ss")
+                    ?>
                         </a>
                         <span class="localTime">※現地時間</span>
-                        <?  if(item.isDelayed){ ?>
+                        <?  if(isDelayed){ ?>
                         <span class="material-icons">warning</span>
                         [遅延提出]
-                        <? } else { ?>
+                        <? } else if(activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
                         <button onclick="window.open('<?!=matchedReport.editResponseUrl ?>')" type="button">
                             <span class="material-icons">edit_note</span>
                             修正する
@@ -147,7 +146,7 @@
                         <? } ?>
                     </div>
                     <div class="draft">
-                        <? if(! item.isDelayed) { ?>
+                        <? if(! isDelayed) { ?>
                         <?  if(matchedReports.length > 1){ ?>
                         <hr/>
                         <?}?>
@@ -164,6 +163,7 @@
                     <div class="itemBody">
                         <span class="material-icons">error</span>
                         未提出[提出期間中]
+                        <? if(matchedReport && activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
                             報告書を記入する
@@ -171,13 +171,15 @@
                         <div class="formEntryGuidance">
                             [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
                         </div>
+                        <? } ?>
                     </div>
                 </td>
-                <? } else if (item.isDelayed){ ?>
+                <? } else if (isDelayed){ ?>
                 <td>
                     <div class="itemBody">
                         <span class="material-icons">error</span>
                         未提出[遅延]
+                        <? if(matchedReport && activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
                             報告書を記入する
@@ -185,6 +187,7 @@
                         <div class="formEntryGuidance">
                             [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
                         </div>
+                        <? } ?>
                     </div>
                 </td>
                 <? } else { ?>

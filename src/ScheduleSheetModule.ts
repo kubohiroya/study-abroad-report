@@ -58,14 +58,14 @@ export class ScheduleSheetModule {
       const endTime = endJST.getTime();
       const prefilledUrl = SpreadsheetModule.createPrefilledUrl(formUrl, ayear, studyAt, reportNum);
       const isNow = startTime <= nowTime && nowTime <= endTime;
-      const isDelayed = endTime < nowTime;
+      // const isDelayed = endTime < nowTime;
 
       ret[ayear][studyAt].push({
         ayear, studyAt, itemName, startYear, endYear, timeZone,
         reportNum, start, end,
         startJST, endJST,
         prefilledUrl,
-        isNow, isDelayed
+        isNow,
       });
     });
     return ret;
@@ -88,7 +88,6 @@ export class ScheduleSheetModule {
       const endTime = endJST.getTime();
       const prefilledUrl = SpreadsheetModule.createPrefilledUrl(formUrl, ayear, studyAt, reportNum);
       const isNow = startTime <= nowTime && nowTime <= endTime;
-      const isDelayed = endTime < nowTime;
 
       const startedJustNow = startTime <= nowTime && nowTime < startTime + hour;
       const endInOneDay = endTime - 24 * hour <= nowTime && nowTime < endTime - 23 * hour;
@@ -100,7 +99,7 @@ export class ScheduleSheetModule {
         reportNum, start, end,
         startJST, endJST,
         prefilledUrl,
-        isNow, isDelayed,
+        isNow,
         startedJustNow,
         endInOneDay,
         endedJustNow,
