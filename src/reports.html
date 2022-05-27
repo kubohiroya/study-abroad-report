@@ -63,7 +63,9 @@
             <?!= member.goals? sanitize(member.goals) : "未提出" ?>
         </p>
 
-        <? Object.keys(schedules).forEach(ayear=>{
+        <?
+        const now = new Date().getTime();
+        Object.keys(schedules).forEach(ayear=>{
         Object.keys(schedules[ayear]).forEach(studyAt=>{
         const items = schedules[ayear][studyAt];
         if(member.ayear !== ayear || member.studyAt !== studyAt) return;
@@ -91,20 +93,25 @@
             </tr>
             </thead>
             <tbody>
-            <? items.forEach((item,index)=>{
+            <?
+            let numDisplayedRows = 0;
+            items.forEach((item,index)=>{
             const reportArray = getLogs(reports, item.ayear, item.studyAt, item.reportNum,
             member.accountId+'@cuc.global');
             const matchedReports = reportArray.sort((a,b)=>a.timestamp - b.timestamp).reverse();
             const matchedReport = matchedReports && matchedReports[0];
 
             if(! query || query == "all" || (matchedReport && matchedReport.timestamp.getTime() == query)){
-            const isDelayed = matchedReport && item.endJST.getTime() < matchedReport.timestamp.getTime();
+            const isDelayedSubmit = matchedReport && item.endJST.getTime() < matchedReport.timestamp.getTime();
+            const isDelayedNoSubmit = !matchedReport && item.endJST.getTime() < now;
+            numDisplayedRows++;
             ?>
             <tr>
                 <th>
-                    <div class="itemHead">
-                        <span class="material-icons">feed</span>
-                        <?= item.reportNum ?>
+                    <div class="itemBody">
+                        <span class="reportNum">
+                            <?= item.reportNum ?>
+                        </span>
                     </div>
                 </th>
                 <th>
@@ -135,7 +142,7 @@
                     ?>
                         </a>
                         <span class="localTime">※現地時間</span>
-                        <?  if(isDelayed){ ?>
+                        <?  if(isDelayedSubmit){ ?>
                         <span class="material-icons">warning</span>
                         [遅延提出]
                         <? } else if(activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
@@ -146,7 +153,7 @@
                         <? } ?>
                     </div>
                     <div class="draft">
-                        <? if(! isDelayed) { ?>
+                        <? if(! isDelayedSubmit && activeUserAccountId === member.accountId) { ?>
                         <?  if(matchedReports.length > 1){ ?>
                         <hr/>
                         <?}?>
@@ -158,12 +165,12 @@
                         <? } } ?>
                     </div>
                 </td>
-                <?   } else if (item.isNow){  ?>
+                <? } else if (isDelayedNoSubmit){ ?>
                 <td>
                     <div class="itemBody">
                         <span class="material-icons">error</span>
-                        未提出[提出期間中]
-                        <? if(matchedReport && activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
+                        未提出[遅延]
+                        <? if(activeUserAccountId === member.accountId) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
                             報告書を記入する
@@ -174,12 +181,12 @@
                         <? } ?>
                     </div>
                 </td>
-                <? } else if (isDelayed){ ?>
+                <?   } else if (item.isNow){  ?>
                 <td>
                     <div class="itemBody">
                         <span class="material-icons">error</span>
-                        未提出[遅延]
-                        <? if(matchedReport && activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
+                        未提出[提出期間中]
+                        <? if(activeUserAccountId === member.accountId) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
                             報告書を記入する
@@ -249,6 +256,11 @@
         ?>
             </tbody>
         </table>
+        <?
+        if(numDisplayedRows==0){
+          ?> <b>表示しようとした報告よりも、新しい報告があります</b><?
+        }
+        ?>
         <div class="tableFootNote">
             ※「提出開始」は現地時間の00:00、「提出期限」は現地時間の23:59 です
         </div>
