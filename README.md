@@ -23,7 +23,7 @@
 ## Googleスプレッドシートの作成
 
 1. 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
-  * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
+  * https://docs.google.com/spreadsheets/d/1gXWlfu1Rt22E08ifmPRFlDm7ID4hsRIm6U5wTQDyjEY/edit#gid=363993758
 2. 内容を修正する。
   * memberシートを作成する。
   * 健康観察報告についての一連のシートをH:の接頭辞を付けたシート名で作成する。
@@ -40,7 +40,8 @@
 ## Googleフォームの作成
 
 1. 健康観察報告用のフォームと、定期報告用のフォームを、それぞれのひな形をもとにコピーして作成する（学内限定）。
-  * https://docs.google.com/forms/d/1aPCfcWOAecNJ-kUG3ILkMbnBTnT5I0CTIOb4Os62nxY/edit
+  * https://docs.google.com/forms/d/18Ct1IirJQp5_ObG_XqQrNVdmUfjAE613nJmRlV--ms8/edit
+  * https://docs.google.com/forms/d/1PM2Q5oub0m2XT6XVp7bZkXcLmyXwvIxPEqvBXuxWl48/edit
 2. このフォームの編集画面のURLをコピーしてメモしておく。
 3. このフォームについて、必要に応じて、セクション1の選択式設問の選択肢の編集、セクション2以降の編集をする。なお、セクション1への設問の追加や削除しないこと。
 4. このフォームの編集画面のメニューから「事前入力したURLを取得」を実行し、セクション1の3つの設問に任意の値で回答を記入した状態の「事前入力したURL」をコピーしてメモしておく。
