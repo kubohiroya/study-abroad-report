@@ -1,16 +1,16 @@
-import {ActiveSpreadsheet} from './ActiveSpreadsheet';
 import {Schedule} from './Schedule';
 import {Config} from './Config';
+import {SheetGroup} from "./SheetGroup";
 
 export class MailTemplateSheetModule {
 
   mailTemplateRows: any[][];
 
-  constructor() {
-    if (!ActiveSpreadsheet.mailTemplateSheet) {
+  constructor(sheetGroup: SheetGroup) {
+    if (!sheetGroup.mailTemplateSheet) {
       throw new Error("Not found sheet 'mailTemplate'");
     }
-    this.mailTemplateRows = ActiveSpreadsheet.mailTemplateSheet.getDataRange().getValues()
+    this.mailTemplateRows = sheetGroup.mailTemplateSheet.getDataRange().getValues()
   }
 
   getMailTemplateByName(templateName: string) {

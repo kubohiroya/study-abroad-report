@@ -1,4 +1,4 @@
-import {Log} from './Log';
+import {Logs} from "./Logs";
 
 export type LogHolder<T> = {
   [ayear: string]: {
@@ -9,14 +9,14 @@ export type LogHolder<T> = {
 }
 
 export class LogHolderModule {
-  static getLogsMap(map: LogHolder<{ [email: string]: Log[] }>, ayear: string, studyAt: string, reportNum: string) {
+  static getLogsMap(map: LogHolder<{ [email: string]: Logs[] }>, ayear: string, studyAt: string, reportNum: string) {
     return map[ayear] &&
       map[ayear][studyAt] &&
       map[ayear][studyAt][reportNum] &&
       map[ayear][studyAt][reportNum];
   }
 
-  static getLogs(map: LogHolder<{ [email: string]: Log[] }>, ayear: string, studyAt: string, reportNum: string, email: string): Log[] {
+  static getLogs(map: LogHolder<{ [email: string]: Logs[] }>, ayear: string, studyAt: string, reportNum: string, email: string): Logs[] {
     if (!map[ayear]) {
       map[ayear] = {};
     }

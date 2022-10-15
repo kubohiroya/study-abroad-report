@@ -1,11 +1,13 @@
 import {StringUtil} from './StringUtil';
 import {DriveUtil} from './DriveUtil';
-import {ScheduleSheetModule} from './ScheduleSheetModule';
 import {doGet, include} from './doGet';
-import {onOpen} from './onOpen';
+import {onOpen, updateConfigSheet} from './onOpen';
 import {onTimer} from './onTimer';
 import {LogHolderModule} from './LogHolder';
 import {updateDelayStatus} from './updateDelayStatus';
+import {updateTriggers} from "./updateTriggers";
+import {updateScheduleCellValues} from "./updateScheduleCellValues";
+import {onFormSubmit} from "./onFormSubmit";
 
 declare const global: {
   [key: string]: unknown;
@@ -14,10 +16,14 @@ declare const global: {
 global.doGet = doGet;
 global.onOpen = onOpen;
 global.onTimer = onTimer;
+global.onFormSubmit = onFormSubmit;
+
 global.getLogs = LogHolderModule.getLogs;
 global.getDriveFileHTML = DriveUtil.getDriveFileHTML;
 global.sanitize = StringUtil.sanitize;
-global.updateScheduleCellValues = ScheduleSheetModule.updateScheduleCellValues;
-global.updateDelayStatus = updateDelayStatus;
 global.include = include;
 
+global.updateScheduleCellValues = updateScheduleCellValues;
+global.updateDelayStatus = updateDelayStatus;
+global.updateTriggers = updateTriggers;
+global.updateConfigSheet = updateConfigSheet;

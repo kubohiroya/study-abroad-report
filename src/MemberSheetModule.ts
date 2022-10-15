@@ -1,16 +1,16 @@
 import {Member} from './Member';
-import {ActiveSpreadsheet} from './ActiveSpreadsheet';
 import {Config} from './Config';
+import {SheetGroup} from "./SheetGroup";
 
 export class MemberSheetModule {
 
   memberRows: any[][];
 
-  constructor() {
-    if (!ActiveSpreadsheet.memberSheet) {
+  constructor(sheetGroup: SheetGroup) {
+    if (!sheetGroup.memberSheet) {
       throw new Error("Not found sheet 'member'");
     }
-    this.memberRows = ActiveSpreadsheet.memberSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
+    this.memberRows = sheetGroup.memberSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
   }
 
   static getAccountId(email: string) {
@@ -18,13 +18,13 @@ export class MemberSheetModule {
   }
 
   static createStudent(row: Array<string>): Member {
-    const [ayear, studentId, accountId, displayName, studyAt, teacher, memo, checklists, goals] = row;
+    const [ayear, studentId, accountId, displayName, studyAt, teacher, memo, checklists1, checklists2, goals] = row;
     const teacherAccountId = MemberSheetModule.getAccountId(teacher);
     return {
       ayear, studentId, accountId, displayName, studyAt, teacher,
       teacherAccountId,
       teacherEmail: teacherAccountId + '@' + Config.teamsDomain,
-      checklists, goals
+      checklists1, checklists2, goals
     };
   }
 

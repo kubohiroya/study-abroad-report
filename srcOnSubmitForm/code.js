@@ -1,7 +1,7 @@
 const form = FormApp.getActiveForm();
 const spreadsheetId = form.getDestinationId();
 const gid = SpreadsheetApp.openById(spreadsheetId).getSheetByName("学生・回ごと提出内容").getSheetId();
-const spreadsheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=${gid}`; // 384349305
+const spreadsheetUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/edit#gid=${gid}`;
 const DEBUG = false;
 const from = 'CUC-FGS';
 
@@ -55,8 +55,7 @@ function onSubmitResponse(timestamp, email, editResponseUrl, itemResponses) {
         if (!configRow) {
             throw new Error("webappUrl is not defined in 'config' sheet");
         }
-        const webappUrl = configRow[1];
-        return webappUrl;
+        return configRow[1];
     }
 
     function appendLogRow(ss, timestamp, email, editResponseUrl, responses) {
@@ -118,9 +117,10 @@ function onSubmitResponse(timestamp, email, editResponseUrl, itemResponses) {
     MailApp.sendEmail(teacher, subject, body, options);
 }
 
-function onSubmit(ev) {
+function onFormSubmit(ev) {
     const timestamp = ev.response.getTimestamp();
     const email = ev.response.getRespondentEmail();
+    // const url = ev.response.getFormId
     const editResponseUrl = ev.response.getEditResponseUrl();
     const itemResponses = ev.response.getItemResponses()
     onSubmitResponse(timestamp, email, editResponseUrl, itemResponses);

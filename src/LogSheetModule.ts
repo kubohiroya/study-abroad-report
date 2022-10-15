@@ -1,17 +1,20 @@
-import {ActiveSpreadsheet} from './ActiveSpreadsheet';
 import {LogHolderModule} from './LogHolder';
-import {Config} from './Config';
+import {Config, SHEET_PREFIX} from './Config';
+import {SheetGroup} from "./SheetGroup";
+import {Logs} from "./Logs";
+import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
 export class LogSheetModule {
 
+  logSheet: Sheet;
   logRows: any[][];
 
-  constructor() {
-    const logSheet = ActiveSpreadsheet.logSheet;
-    if (!logSheet) {
+  constructor(sheetGroup: SheetGroup) {
+    this.logSheet = sheetGroup.logSheet;
+    if (!this.logSheet) {
       throw new Error("Not found sheet 'log'");
     }
-    this.logRows = logSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
+    this.logRows = this.logSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
   }
 
   getRowsByEmails(studentEmailArray: string[]) {
@@ -30,21 +33,36 @@ export class LogSheetModule {
     });
   }
 
-  getLogHolderByEmails(emailArray: string[]) {
-    const ret = {};
-    this.getRowsByEmails(emailArray).forEach((row) => {
+  createLogEntry(row: any[]): Logs {
+    if(this.logSheet.getName() === SHEET_PREFIX.HEALTH_CHECK_PREFIX+'log'){
+      const [timestamp, email, editResponseUrl, ayear, studyAt, reportNum, temperature, description] = row;
+      return {
+        timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
+        temperature, description
+      }
+    } else if(this.logSheet.getName() === SHEET_PREFIX.REPORT_PREFIX+'log') {
       const [timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
         healthStatus, healthMemo,
         attendStatus, absentReason,
-        studySelfReview, studyPhoto,
+        studySelfReview, researchSelfReview, studyPhoto,
         personalLifeSelfReview, personalLifePhoto] = row;
-      LogHolderModule.getLogs(ret, ayear, studyAt, reportNum, email).push({
+      return {
         timestamp, email, editResponseUrl, ayear, studyAt, reportNum,
         healthStatus, healthMemo,
         attendStatus, absentReason,
-        studySelfReview, studyPhoto,
+        studySelfReview, researchSelfReview, studyPhoto,
         personalLifeSelfReview, personalLifePhoto
-      });
+      }
+    }else{
+      throw new Error("invalid sheet name:"+this.logSheet.getName());
+    }
+  }
+
+  getLogHolderByEmails(emailArray: string[]) {
+    const ret = {};
+    this.getRowsByEmails(emailArray).forEach((row) => {
+      const entry = this.createLogEntry(row);
+      LogHolderModule.getLogs(ret, entry.ayear, entry.studyAt, entry.reportNum, entry.email).push(entry);
     });
     return ret;
   }

@@ -7,6 +7,7 @@ export type Member = {
   teacher: string;
   teacherAccountId: string;
   teacherEmail: string;
-  checklists: string;
+  checklists1: string;
+  checklists2: string;
   goals: string;
 }

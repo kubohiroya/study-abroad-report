@@ -1,11 +1,16 @@
-import {ActiveSpreadsheet} from './ActiveSpreadsheet';
+export enum SHEET_PREFIX {
+  HEALTH_CHECK_PREFIX = 'H_',
+  REPORT_PREFIX = 'R_',
+}
+
+export enum APP_MODE {
+  HEALTH_CHECK_MODE = 'health',
+  REPORT_MODE = 'report',
+}
 
 export class Config {
-  static faviconId = ActiveSpreadsheet.config.get('faviconId');
-  static dashboardUrl = ActiveSpreadsheet.config.get('dashboardUrl');
-  static ayearEntryId = ActiveSpreadsheet.config.get('ayearEntryId');
-  static studyAtEntryId = ActiveSpreadsheet.config.get('studyAtEntryId');
-  static reportNumEntryId = ActiveSpreadsheet.config.get('reportNumEntryId');
+
+  static PREFIXES = [SHEET_PREFIX.HEALTH_CHECK_PREFIX, SHEET_PREFIX.REPORT_PREFIX];
 
   static COLINDEX_MEMBER_AYEAR = 0; // memberシートの0スタートで0カラム目が「ayear」
   static COLINDEX_MEMBER_ACCOUNTID = 2; // memberシートの0スタートで2カラム目が「accountId」

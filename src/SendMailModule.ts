@@ -2,21 +2,22 @@ import {Member} from './Member';
 import {MemberSheetModule} from './MemberSheetModule';
 import {ScheduleSheetModule} from './ScheduleSheetModule';
 import {LogSheetModule} from './LogSheetModule';
-import {Config} from './Config';
+import {Config, SHEET_PREFIX} from './Config';
 import {StringUtil} from './StringUtil';
 import {MailTemplateSheetModule} from './MailTemplateSheetModule';
 import {LogHolderModule} from './LogHolder';
+import {SheetGroup} from "./SheetGroup";
 
 export class SendMailModule {
 
-  static sendCustomizedMailsByDate(date: Date) {
+  static sendCustomizedMailsByDate(sheetGroup: SheetGroup, date: Date) {
 
-    let studentMap = new MemberSheetModule().getMemberMap();
+    let studentMap = new MemberSheetModule(sheetGroup).getMemberMap();
 
-    const scheduleItems = new ScheduleSheetModule().getItemsByDate(date);
+    const scheduleItems = new ScheduleSheetModule(sheetGroup).getItemsByDate(date);
 
-    const logs = new LogSheetModule().getLogHolderByEmails([]);
-    const mailTemplateSheetModule = new MailTemplateSheetModule();
+    const logs = new LogSheetModule(sheetGroup).getLogHolderByEmails([]);
+    const mailTemplateSheetModule = new MailTemplateSheetModule(sheetGroup);
     scheduleItems.forEach((item) => {
       const template = mailTemplateSheetModule.getMailTemplate(item);
       if (!template) {
@@ -50,7 +51,7 @@ export class SendMailModule {
         item.reportNum,
         item.start,
         item.end,
-        Config.dashboardUrl
+        sheetGroup.config.get("dashboardUrl")!
       ];
       const [subject, body] = StringUtil.replaceAll([template.subject, template.body], labels, values);
 
@@ -66,7 +67,8 @@ export class SendMailModule {
   }
 }
 
-function sendCustomizedMailsByDateTest() {
+export function sendCustomizedMailsByDateTest() {
+  const sheetGroup = new SheetGroup(SHEET_PREFIX.HEALTH_CHECK_PREFIX);
   const date = new Date(Date.parse("2022-03-18T00:01:00+0900"));
-  SendMailModule.sendCustomizedMailsByDate(date);
+  SendMailModule.sendCustomizedMailsByDate(sheetGroup, date);
 }

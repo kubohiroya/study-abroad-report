@@ -1,12 +1,16 @@
 export const updateDelayStatus = () => {
   const sheet = SpreadsheetApp.getActiveSheet();
-  if (sheet.getSheetName() !== "学生ごと提出状況") {
+
+  if (! sheet.getSheetName().endsWith("学生ごと提出状況")) {
     return;
   }
 
   const dueDates = new Map<string, number>()
-  const schedules = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('schedule')?.getRange("A2:P").getValues();
+  const schedules = sheet?.getRange("A2:P").getValues();
   schedules && schedules.forEach((row) => {
+    if (!row || !row[0] || row[0] === "") {
+      return;
+    }
     const ayear = row[0];
     const studyAt = row[1];
     const reportNum = row[11];
@@ -26,7 +30,6 @@ export const updateDelayStatus = () => {
     }
 
     const ayear = row[0];
-    const studentId = row[1];
     const studyAt = row[4];
 
     for (let i = 0; i <= 5; i++) {

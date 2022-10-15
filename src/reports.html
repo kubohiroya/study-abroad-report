@@ -1,23 +1,9 @@
 <body>
 
+<?!= header ?>
+
 <? members.forEach(member=>{ ?>
 <div class="member">
-
-    <? if(! query && activeUserAccountId === member.accountId){ ?>
-    <div>
-        <h2>
-            定期報告
-        </h2>
-        <p>
-            「定期報告」は、2週間に1回、指定された報告回ごとの提出開始から提出期限までの間に実施してください。
-        </p>
-        <p>
-            急を要すると判断されるような事柄、困ったことや相談したいことについては、「留学生サポートデスク」等に連絡をして対応するとともに、
-            担当教員へのTeamsチャットを通じて連絡をしてください。
-        </p>
-    </div>
-
-    <? } ?>
 
     <div class="dashboard">
         <h2 class="account">
@@ -40,44 +26,50 @@
             この学生(<?= member.displayName ?>)とチャットする
         </button>
         <?}?>
-
+        <? if(mode !== 'health'){ ?>
+        <? if(member.checklists1){ ?>
         <h3>
-            <a onclick="alert('オンライン留学中の「絶対実行」チェックリストを3項目以上、「絶対禁止」チェックリストを3項目以上を考えて決める\n\n'+
-        '期限: 2月17日 23:59')">
-                チェックリスト(絶対実行・絶対禁止)
-            </a>
+            チェックリスト(絶対実行)
         </h3>
         <p class="submissions">
-            <?!= member.checklists ? sanitize(member.checklists) : "未提出" ?>
+            <?!= member.checklists1 ? sanitize(member.checklists1) : "未記入" ?>
         </p>
-
+	<?}?>
+	
+	<? if(member.checklists2){ ?>	
         <h3>
-            <a onclick="alert('(1) あなたが留学中に伸ばしたい力・積みたい経験はどんなのものですか。\n'+
-'(2) 留学中に挑戦したいことは何ですか。\n'+
-'(3) 挑戦したことの成果や結果をどう記録に残しますか。\n'+
-'(4) 「留学と就活の接続プログラム」の一連の流れを通じて、あなたが取り組み学んだ内容のうち、特に印象に残ったことは何ですか。またそれは何故ですか。\n\n'+
-'期限: 3月27日 23:59')">
-                課題(1)〜(4)</a>
+            チェックリスト(絶対禁止)
         </h3>
         <p class="submissions">
-            <?!= member.goals? sanitize(member.goals) : "未提出" ?>
+            <?!= member.checklists2 ? sanitize(member.checklists2) : "未記入" ?>
         </p>
+	<?}?>
+	
+	<? if(member.goals){ ?>
+        <h3>
+            <a>目標</a>
+        </h3>
+        <p class="submissions">
+            <?!= member.goals? sanitize(member.goals) : "未記入" ?>
+        </p>
+        <?}?>
+        <?}?>
 
         <?
         const now = new Date().getTime();
         Object.keys(schedules).forEach(ayear=>{
         Object.keys(schedules[ayear]).forEach(studyAt=>{
         const items = schedules[ayear][studyAt];
-        if(member.ayear !== ayear || member.studyAt !== studyAt) return;
+        if(`${member.ayear} ${member.studyAt}` !== `${ayear} ${studyAt}`) return;
         const url = ScriptApp.getService().getUrl() +
         ( (activeUserAccountId === member.accountId)? '?' : `?student=${member.accountId}&`) +
         'query=all';
         ?>
         <h3>
             <span class="material-icons">travel_explore</span>
-            <?= items[0].ayear ?> <?= items[0].studyAt?> 研修の定期報告
+            <?= items[0].ayear ?> <?= items[0].studyAt?> 研修の報告
             <button onclick="window.open('<?= url ?>')">
-                提出済みの報告書を一覧表示する
+                提出済みの報告を一覧表示する
                 <span class="material-icons">launch</span>
             </button>
 
@@ -141,7 +133,6 @@
                         "yyyy-MM-dd HH:mm:ss")
                     ?>
                         </a>
-                        <span class="localTime">※現地時間</span>
                         <?  if(isDelayedSubmit){ ?>
                         <span class="material-icons">warning</span>
                         [遅延提出]
@@ -173,7 +164,7 @@
                         <? if(activeUserAccountId === member.accountId) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
-                            報告書を記入する
+                            報告を記入する
                         </button>
                         <div class="formEntryGuidance">
                             [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
@@ -189,7 +180,7 @@
                         <? if(activeUserAccountId === member.accountId) { ?>
                         <button onclick="window.open('<?!= item.prefilledUrl ?>')" type="button">
                             <span class="material-icons">add</span>
-                            報告書を記入する
+                            報告を記入する
                         </button>
                         <div class="formEntryGuidance">
                             [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
@@ -210,6 +201,18 @@
             <?  if(query && matchedReport && (query == "all" || matchedReport.timestamp.getTime() == query)){ ?>
             <tr>
                 <td colspan="5">
+                    <? if(mode !== 'health'){ ?>
+                    <table>
+                        <tr>
+                            <th>体温</th>
+                            <td><?= matchedReport?.temperature ?></td>
+                        </tr>
+                        <tr>
+                            <th>詳細</th>
+                            <td><?!= sanitize(matchedReport?.description) ?></td>
+                        </tr>
+                    </table>
+                    <? }else{ ?>
                     <table>
                         <tr>
                             <th>健康状態</th>
@@ -228,11 +231,15 @@
                             <td><?!= sanitize(matchedReport?.absentReason) ?></td>
                         </tr>
                         <tr>
-                            <th>学修の振り返り</th>
+                            <th>学習の振り返り</th>
                             <td><?!= sanitize(matchedReport?.studySelfReview) ?></td>
                         </tr>
                         <tr>
-                            <th>学修に関する写真</th>
+                            <th>研究についての進捗報告</th>
+                            <td><?!= sanitize(matchedReport?.researchSelfReview) ?></td>
+                        </tr>
+                        <tr>
+                            <th>授業・学修・研究に関する写真</th>
                             <td>
                                 <?!= getDriveFileHTML(matchedReport?.studyPhoto).join("") ?>
                             </td>
@@ -248,6 +255,7 @@
                             </td>
                         </tr>
                     </table>
+                    <? } ?>
                 </td>
             </tr>
             <?
@@ -262,7 +270,10 @@
         }
         ?>
         <div class="tableFootNote">
-            ※「提出開始」は現地時間の00:00、「提出期限」は現地時間の23:59 です
+            <p>
+                ※留学中の現地からの報告の
+                「提出開始」は<b>現地時間の00:00</b>、「提出期限」は<b>現地時間の23:59</b> です
+            </p>
         </div>
 
         <? }) }) ?>

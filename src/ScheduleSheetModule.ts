@@ -1,46 +1,55 @@
-import {ActiveSpreadsheet} from './ActiveSpreadsheet';
 import {Schedule} from './Schedule';
 import {DateUtil} from './DateUtil';
 import {ScheduleHolder} from './ScheduleHolder';
-import {Config} from './Config';
-import {SpreadsheetModule} from './SpreadsheetModules';
+import {Config, SHEET_PREFIX} from './Config';
+import {SheetGroup} from "./SheetGroup";
+import {createPrefilledUrl} from "./FormUtil";
 
 export class ScheduleSheetModule {
-
+  sheetGroup: SheetGroup;
   scheduleRows: any[][];
-
-  constructor() {
-    if (!ActiveSpreadsheet.scheduleSheet) {
+  constructor(sheetGroup: SheetGroup) {
+    if (!sheetGroup.scheduleSheet) {
       throw new Error("Not found sheet 'schedule'");
     }
-    this.scheduleRows = ActiveSpreadsheet.scheduleSheet.getDataRange().getValues().filter((row, index) => index > 0 && row[0]);
+    this.sheetGroup = sheetGroup;
+    this.scheduleRows = sheetGroup.scheduleSheet.getDataRange().getValues().filter((row, index) => index > 0 && row[0]);
   }
 
-  static updateScheduleCellValues() {
-    if (!ActiveSpreadsheet.scheduleSheet) {
+  updateScheduleCellValues() {
+    if (! this.sheetGroup.scheduleSheet) {
       throw new Error("Not found sheet 'schedule'");
     }
-    const src = ActiveSpreadsheet.scheduleSheet.getRange("F2:N").getValues().map(row => ({
+    const src = this.sheetGroup.scheduleSheet.getRange("F2:N").getValues().filter((row) => row[0] && row[0] !== '').map(row => ({
       timeZone: row[0],
       start: row[7],
       end: row[8]
     }));
-    ActiveSpreadsheet.scheduleSheet.getRange("O2:O").setValues(src.map(row => [DateUtil.getTimeZoneDate(row.start, row.timeZone)]));
-    ActiveSpreadsheet.scheduleSheet.getRange("P2:P").setValues(src.map(row => [DateUtil.getTimeZoneDate(row.end, row.timeZone, true)]));
-    ActiveSpreadsheet.scheduleSheet.getRange("O1:P1").setValues([["startJST", "endJST"]]);
-    ActiveSpreadsheet.spreadsheet.setActiveSheet(ActiveSpreadsheet.scheduleSheet);
+
+    const values = [["startJST", "endJST"]] as Array<Array<Date|string>>;
+    src.forEach((row)=>{
+      values.push([
+        DateUtil.getTimeZoneDate(row.start, row.timeZone),
+        DateUtil.getTimeZoneDate(row.end, row.timeZone, true)
+      ])
+    });
+
+    this.sheetGroup.scheduleSheet.getRange(1, 15, values.length, 2).setValues(values);
   }
 
   getItemMap(ayearStudyAtArray: Array<string>): ScheduleHolder {
     const ret: ScheduleHolder = {};
     const nowTime = new Date().getTime();
-    const formUrl = ActiveSpreadsheet.spreadsheet.getFormUrl();
-    if (!formUrl) {
-      throw new Error("invalid form");
+    const formResponseUrl = this.sheetGroup.config.get("formResponseUrl");
+
+    if (!formResponseUrl || formResponseUrl === "") {
+      throw new Error("invalid formResponseUrl:"+formResponseUrl);
     }
 
+    // Logger.log("ayearStudyAtArray:"+ayearStudyAtArray.join("/"));
     this.scheduleRows.filter((row) => {
       const ayearStudyAt = row[Config.COLINDEX_SCHEDULESHEET_AYEAR] + "\t" + row[Config.COLINDEX_SCHEDULESHEET_STUDYAT];
+      // Logger.log("ayearStudyAt:"+ayearStudyAt);
       return ayearStudyAtArray.includes(ayearStudyAt);
     }).forEach(row => {
       const [ayear, studyAt, itemName, startYear, endYear, timeZone,
@@ -56,7 +65,7 @@ export class ScheduleSheetModule {
       }
       const startTime = startJST.getTime();
       const endTime = endJST.getTime();
-      const prefilledUrl = SpreadsheetModule.createPrefilledUrl(formUrl, ayear, studyAt, reportNum);
+      const prefilledUrl = createPrefilledUrl(this.sheetGroup, formResponseUrl, ayear, studyAt, reportNum);
       const isNow = startTime <= nowTime && nowTime <= endTime;
       // const isDelayed = endTime < nowTime;
 
@@ -74,10 +83,16 @@ export class ScheduleSheetModule {
   getItemsByDate(now: Date): Array<Schedule> {
     const hour = 1000 * 60 * 60;
     const nowTime = now.getTime();
-    const formUrl = ActiveSpreadsheet.spreadsheet.getFormUrl();
-    if (!formUrl) {
-      throw new Error('invalid form');
-    }
+    const formResponseUrl = this.sheetGroup.config.get("formResponseUrl")!;
+
+    const check = (item: {
+      startedJustNow: boolean, endInOneDay: boolean,
+      endedJustNow: boolean, endedOneDayAgo: boolean
+    }) => this.sheetGroup.prefix === SHEET_PREFIX.REPORT_PREFIX?
+        (item.startedJustNow || item.endInOneDay || item.endedJustNow || item.endedOneDayAgo)
+        :
+        (item.startedJustNow || item.endedJustNow || item.endedOneDayAgo);
+
     return this.scheduleRows.map((row) => {
       const [ayear, studyAt, itemName, startYear, endYear, timeZone,
         _reportNum, _startMM, _startDD, _endMM, _endDD,
@@ -86,7 +101,7 @@ export class ScheduleSheetModule {
       ] = row;
       const startTime = startJST.getTime();
       const endTime = endJST.getTime();
-      const prefilledUrl = SpreadsheetModule.createPrefilledUrl(formUrl, ayear, studyAt, reportNum);
+      const prefilledUrl = createPrefilledUrl(this.sheetGroup, formResponseUrl, ayear, studyAt, reportNum);
       const isNow = startTime <= nowTime && nowTime <= endTime;
 
       const startedJustNow = startTime <= nowTime && nowTime < startTime + hour;
@@ -105,6 +120,6 @@ export class ScheduleSheetModule {
         endedJustNow,
         endedOneDayAgo
       };
-    }).filter(item => (item.startedJustNow || item.endInOneDay || item.endedJustNow || item.endedOneDayAgo));
+    }).filter(item=>check(item));
   }
 }
