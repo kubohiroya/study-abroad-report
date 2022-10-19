@@ -4,7 +4,132 @@
     <title>StudyAbroadReport</title>
     <base target="_top">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <?!= include('style'); ?>
+    <style>
+        .dashboard {
+            text-align: center;
+        }
+
+        .material-icons {
+            vertical-align: bottom;
+        }
+
+        .member {
+            padding-bottom: 32px;
+            margin-right: 24px;
+            margin-left: 24px;
+        }
+
+        .account {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+
+        .account .material-icons {
+            font-size: 140%;
+            margin-right: 10px;
+        }
+
+        table {
+            border-width: 1px;
+            border-style: solid;
+            margin: auto;
+        }
+
+        thead {
+            background-color: #444;
+            color: #eee;
+        }
+
+        .reportNum {
+            font-size: 120%;
+        }
+
+        tbody tr td {
+            border-style: solid;
+            border-width: 1px;
+            border-color: grey;
+            background-color: #fafafa;
+        }
+
+        .localTime {
+            font-size: 80%;
+            color: grey;
+            margin-top: 4px;
+            padding-left: 3px;
+            padding-right: 3px;
+        }
+
+        .itemHead {
+            vertical-align: top;
+            display: flex;
+            justify-content: start;
+            margin-right: 5px;
+            padding-top: 10px;
+        }
+
+        .itemBody {
+            vertical-align: top;
+            margin-top: 0;
+        }
+
+        button {
+            margin-top: 3px;
+        }
+
+        .draft {
+            background-color: #ddd;
+        }
+
+        .draft button {
+            font-size: 75%;
+            margin-top: 0;
+            margin-bottom: 4px;
+        }
+
+        .formEntryGuidance {
+            font-size: 80%;
+            color: grey;
+        }
+
+        .tableFootNote {
+            font-size: 80%;
+            color: grey;
+        }
+
+        img {
+            width: auto;
+            height: 200px;
+        }
+
+        .video {
+            position: relative;
+            display: inline-block;
+        }
+
+        .video .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+        }
+
+        .video .overlay span {
+            font-size: 64px;
+            opacity: 75%;
+            color: white;
+        }
+
+        .submissions {
+            text-align: left;
+            background-color: #ccc;
+            border-radius: 20px;
+            padding: 10px;
+            font-size: 90%;
+        }
+    </style>
 </head>
 <?!= body ?>
 </html>

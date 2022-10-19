@@ -1,0 +1,75 @@
+<? if(matchedReport){ ?>
+<td>
+    <div class="itemBody">
+        <a href="<?= urlBase ?>?mode=<?=mode?>&query=<?= matchedReport.timestamp.getTime() ?>&student=<?= matchedReport.email.split('@')[0] ?>"
+           target="_blank">
+            <span class="material-icons">check</span>
+            提出済み: <?=
+                      Utilities.formatDate(matchedReport.timestamp,
+                        schedule.timeZone,
+                        "yyyy-MM-dd HH:mm:ss")
+                    ?>
+        </a>
+        <?  if(isDelayedSubmit){ ?>
+        <span class="material-icons">warning</span>
+        [遅延提出]
+        <? } else if(activeUserAccountId+"@cuc.global" === matchedReport.email) { ?>
+        <button onclick="window.open('<?!=matchedReport.editResponseUrl ?>')" type="button">
+            <span class="material-icons">edit_note</span>
+            修正する
+        </button>
+        <? } ?>
+    </div>
+    <div class="draft">
+        <? if(! isDelayedSubmit && activeUserAccountId === student.accountId) { ?>
+        <?  if(matchedReports.length > 1){ ?>
+        <hr/>
+        <?}?>
+        <?  for(let i = 1; i < matchedReports.length; i++){ ?>
+        <button onclick="window.open('<?!=matchedReports[i].editResponseUrl?>')" type="button">
+            <span class="material-icons">edit_note</span>
+            下書き<?= i ?>
+        </button>
+        <? } } ?>
+    </div>
+</td>
+<? } else if (isDelayedNoSubmit){ ?>
+<td>
+    <div class="itemBody">
+        <span class="material-icons">error</span>
+        未提出[遅延]
+        <? if(activeUserAccountId === student.accountId) { ?>
+        <button onclick="window.open('<?!= schedule.prefilledUrl ?>')" type="button">
+            <span class="material-icons">add</span>
+            報告を記入する
+        </button>
+        <div class="formEntryGuidance">
+            [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
+        </div>
+        <? } ?>
+    </div>
+</td>
+<?   } else if (schedule.isNow){  ?>
+<td>
+    <div class="itemBody">
+        <span class="material-icons">error</span>
+        未提出[提出期間中]
+        <? if(activeUserAccountId === student.accountId) { ?>
+        <button onclick="window.open('<?!= schedule.prefilledUrl ?>')" type="button">
+            <span class="material-icons">add</span>
+            報告を記入する
+        </button>
+        <div class="formEntryGuidance">
+            [現在の下書きで続行しますか？]が表示されたら「続行」を押してください
+        </div>
+        <? } ?>
+    </div>
+</td>
+<? } else { ?>
+<td>
+    <div class="itemBody">
+        <span class="material-icons">alarm_on</span>
+        提出開始前
+    </div>
+</td>
+<? } ?>

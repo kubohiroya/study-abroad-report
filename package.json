@@ -5,7 +5,11 @@
   "license": "MIT",
   "scripts": {
     "build": "mkdir dist ; cp src/*.html dist && webpack",
-    "push": "yarn build && clasp push"
+    "push": "yarn build && clasp push",
+    "open:dev": "clasp open --webapp --deploymentId AKfycbz3HhvuVML5NFZfQDGjFDbjeBUPCUZzOtKRAFx1gb8szMbXDPONGSSfEKldks89BGLP",
+    "deploy": "clasp deploy",
+    "deploy:dev":"clasp deploy -i AKfycbz3HhvuVML5NFZfQDGjFDbjeBUPCUZzOtKRAFx1gb8szMbXDPONGSSfEKldks89BGLP",
+    "deploy:prod":"clasp deploy -i AKfycbzKs2XOjkg-nH3DOB3Wfi0_93lIY5OazKbtdcb4RUkq7TjhiEFASKCWdIJpISQkwMqTcg"
   },
   "devDependencies": {
     "@google/clasp": "^2.4.2",

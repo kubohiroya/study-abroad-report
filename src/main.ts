@@ -1,6 +1,6 @@
 import {StringUtil} from './StringUtil';
 import {DriveUtil} from './DriveUtil';
-import {doGet, include} from './doGet';
+import {doGet/*, getJson*/} from './doGet';
 import {onOpen, updateConfigSheet} from './onOpen';
 import {onTimer} from './onTimer';
 import {LogHolderModule} from './LogHolder';
@@ -21,9 +21,10 @@ global.onFormSubmit = onFormSubmit;
 global.getLogs = LogHolderModule.getLogs;
 global.getDriveFileHTML = DriveUtil.getDriveFileHTML;
 global.sanitize = StringUtil.sanitize;
-global.include = include;
 
 global.updateScheduleCellValues = updateScheduleCellValues;
 global.updateDelayStatus = updateDelayStatus;
 global.updateTriggers = updateTriggers;
 global.updateConfigSheet = updateConfigSheet;
+
+// global.getJson = getJson;

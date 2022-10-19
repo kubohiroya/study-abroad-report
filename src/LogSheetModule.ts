@@ -14,7 +14,7 @@ export class LogSheetModule {
     if (!this.logSheet) {
       throw new Error("Not found sheet 'log'");
     }
-    this.logRows = this.logSheet.getDataRange().getValues().filter((row: any[], index: number) => index > 0 && row[0]);
+    this.logRows = this.logSheet.getDataRange().getValues().filter((row: any[]) => row[0]);
   }
 
   getRowsByEmails(studentEmailArray: string[]) {

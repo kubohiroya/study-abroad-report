@@ -1,0 +1,42 @@
+<table>
+    <tr>
+        <th>健康状態</th>
+        <td><?= matchedReport?.healthStatus ?></td>
+    </tr>
+    <tr>
+        <th>健康状態の不調の詳細</th>
+        <td><?!= sanitize(matchedReport?.healthMemo) ?></td>
+    </tr>
+    <tr>
+        <th>出欠状況</th>
+        <td><?= matchedReport?.attendStatus ?></td>
+    </tr>
+    <tr>
+        <th>欠席の事情</th>
+        <td><?!= sanitize(matchedReport?.absentReason) ?></td>
+    </tr>
+    <tr>
+        <th>学習の振り返り</th>
+        <td><?!= sanitize(matchedReport?.studySelfReview) ?></td>
+    </tr>
+    <tr>
+        <th>研究についての進捗報告</th>
+        <td><?!= sanitize(matchedReport?.researchSelfReview) ?></td>
+    </tr>
+    <tr>
+        <th>授業・学修・研究に関する写真</th>
+        <td>
+            <?!= getDriveFileHTML(matchedReport?.studyPhoto).join("") ?>
+        </td>
+    </tr>
+    <tr>
+        <th>生活のエピソード</th>
+        <td><?!= sanitize(matchedReport?.personalLifeSelfReview) ?></td>
+    </tr>
+    <tr>
+        <th>生活に関する写真</th>
+        <td>
+            <?!= getDriveFileHTML(matchedReport?.personalLifePhoto).join("") ?>
+        </td>
+    </tr>
+</table>

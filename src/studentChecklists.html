@@ -1,0 +1,26 @@
+<? if(student.checklists1){ ?>
+<h3>
+    チェックリスト(絶対実行)
+</h3>
+<p class="submissions">
+    <?!= student.checklists1 ? sanitize(student.checklists1) : "未記入" ?>
+</p>
+<?}?>
+
+<? if(student.checklists2){ ?>
+<h3>
+    チェックリスト(絶対禁止)
+</h3>
+<p class="submissions">
+    <?!= student.checklists2 ? sanitize(student.checklists2) : "未記入" ?>
+</p>
+<?}?>
+
+<? if(student.goals){ ?>
+<h3>
+    <a>目標</a>
+</h3>
+<p class="submissions">
+    <?!= student.goals? sanitize(student.goals) : "未記入" ?>
+</p>
+<?}?>

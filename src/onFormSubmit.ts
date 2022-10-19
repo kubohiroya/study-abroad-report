@@ -53,13 +53,21 @@ function onSubmitResponse(formId: string, prefix: string, timestamp: GoogleAppsS
         });
     }
 
-    function getWebappUrl(prefix: string, ss: Spreadsheet) {
+    function getConfigValue(prefix: string, ss: Spreadsheet, key: string) {
         const configSheet: Sheet = ss.getSheetByName(prefix+"config")!;
-        const configRow = configSheet.getDataRange().getValues().find(row => row[0] === "webappUrl");
+        const configRow = configSheet.getDataRange().getValues().find(row => row[0] === key);
         if (!configRow) {
-            throw new Error("webappUrl is not defined in 'config' sheet");
+            throw new Error(key+" is not defined in 'config' sheet");
         }
         return configRow[1];
+    }
+
+    function getWebappUrl(prefix: string, ss: Spreadsheet) {
+        return getConfigValue(prefix, ss, 'webappUrl');
+    }
+
+    function getNumReports(prefix: string, ss: Spreadsheet) {
+        return getConfigValue(prefix, ss, 'numReports');
     }
 
     function appendLogRow(prefix: string, ss: Spreadsheet, timestamp: GoogleAppsScript.Base.Date, email: string, editResponseUrl: string, responses: string[]) {
@@ -71,8 +79,9 @@ function onSubmitResponse(formId: string, prefix: string, timestamp: GoogleAppsS
         const gid = ss.getSheetByName(prefix+"学生・回ごと提出内容")!.getSheetId();
         const spreadsheetUrl = `https://docs.google.com/spreadsheets/d/${ss.getId()}/edit#gid=${gid}`;
         const memberIndex = member.index;
-        const rowStart = 2 + (memberIndex - 1) * 6;
-        const rowEnd = rowStart + 5;
+        const numReports = parseInt(getNumReports(prefix, ss));
+        const rowStart = 2 + (memberIndex - 1) * numReports;
+        const rowEnd = rowStart + numReports -1;
         return `${spreadsheetUrl}&range=${rowStart}:${rowEnd}`;
     }
 

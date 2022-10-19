@@ -1,0 +1,87 @@
+<?
+if(index == 0) {
+?>
+
+<h3>
+    <span class="material-icons">travel_explore</span>
+    <?= ayear ?> <?= studyAt?> 研修の報告
+    <button onclick="window.open('<?= url ?>')">
+        提出済みの報告を一覧表示する
+        <span class="material-icons">launch</span>
+    </button>
+</h3>
+
+<div style="display: flex; flex-direction: row; font-size: 75%; overflow-x:scroll; justify-content: start">
+
+    <? } ?>
+
+<?
+if(index % numRows === 0){
+?>
+<table style="margin-top: 0">
+    <thead>
+    <tr>
+        <th>報告回</th>
+        <th>提出開始</th>
+        <th></th>
+        <th>提出期限</th>
+        <th>アクション</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?
+  }
+    ?>
+
+    <tr>
+        <th>
+            <div class="itemBody">
+                        <span class="reportNum">
+                            <?= schedule.reportNum ?>
+                        </span>
+            </div>
+        </th>
+        <th>
+            <div class="itemBody">
+                <?= schedule.start ?>
+            </div>
+        </th>
+        <th>
+            <div class="itemBody">
+                /
+            </div>
+        </th>
+        <th>
+            <div class="itemBody">
+                <?= schedule.end ?>
+            </div>
+        </th>
+
+        <?!= studentReport ?>
+
+    </tr>
+
+
+    <?  if(query && matchedReport && (query == "all" || matchedReport.timestamp.getTime() == query)){ ?>
+    <tr>
+        <td colspan="5">
+            <? if(mode === 'health'){ ?>
+            <?!= studentHealthReport ?>
+            <? }else{ ?>
+            <?!= studentBiweeklyReport ?>
+            <? } ?>
+        </td>
+    </tr>
+    <? } ?>
+
+
+    <? if(index % numRows === numRows - 1 || isLastRow){ ?>
+    </tbody>
+    </table>
+    <? } ?>
+
+<? if(isLastRow){ ?>
+</div>
+<? } ?>
+
+

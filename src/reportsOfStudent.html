@@ -1,0 +1,20 @@
+<div class="member">
+    <div class="dashboard">
+
+        <?!= studentHeader ?>
+        <?!= studentChecklists ?>
+
+        <?!= studentReportSetArray ?>
+
+        <div class="tableFootNote">
+            <p>
+                ※留学中の現地からの報告の
+                「提出開始」は<b>現地時間の00:00</b>、「提出期限」は<b>現地時間の23:59</b> です
+            </p>
+        </div>
+
+        <? if(query || activeUserAccountId !== student.accountId){ ?>
+          <hr/>
+        <? } ?>
+    </div>
+</div>

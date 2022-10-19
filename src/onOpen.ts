@@ -69,7 +69,7 @@ export function updateConfigSheet(){
   const webappUrl = prompt(ui,`webappUrl`, defaultValues.get('webappUrl'));
 
   sheet.getRange("A1:B9").setValues([
-    ['maxReportNum', form.getItems().find(item=>item.getTitle()==='報告回')?.asListItem().getChoices().length],
+    ['numReports', form.getItems().find(item=>item.getTitle()==='報告回')?.asListItem().getChoices().length],
     ['prefilledFormResponseUrl', prefilledFormResponseUrl],
     ['formResponseUrl', formResponseUrl],
     ['formEditUrl', formEditUrl],
