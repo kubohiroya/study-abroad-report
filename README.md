@@ -16,14 +16,14 @@
 
 ## Googleサイトの作成
 
-1. 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する（学内限定）。
-  * https://sites.google.com/cuc.global/studyabroad2022/
-2. このGoogleサイトを公開したURLをコピーしてメモしておく。
+1. 定期報告用のGoogleサイトを、ひな形をもとにコピーして作成する。
+  * [https://sites.google.com/cuc.global/2022autumn/dashboard](https://sites.google.com/cuc.global/2022autumn/dashboard)
+2. このGoogleサイトを公開したURLをメモしておく。
 
 ## Googleスプレッドシートの作成
 
 1. 定期報告用のスプレッドシートを、ひな形をもとにコピーして作成する（学内限定）。
-  * https://docs.google.com/spreadsheets/d/1l0442hpP8G_TbBXGImCLhxOzuJUrPiV5QV6sGTEPsZ8/edit?usp=sharing
+  * https://docs.google.com/spreadsheets/d/1gXWlfu1Rt22E08ifmPRFlDm7ID4hsRIm6U5wTQDyjEY/edit#gid=363993758
 2. 内容を修正する。
   * memberシートを作成する。
   * 健康観察報告についての一連のシートをH:の接頭辞を付けたシート名で作成する。
@@ -40,10 +40,11 @@
 ## Googleフォームの作成
 
 1. 健康観察報告用のフォームと、定期報告用のフォームを、それぞれのひな形をもとにコピーして作成する（学内限定）。
-  * https://docs.google.com/forms/d/1aPCfcWOAecNJ-kUG3ILkMbnBTnT5I0CTIOb4Os62nxY/edit
+  * https://docs.google.com/forms/d/18Ct1IirJQp5_ObG_XqQrNVdmUfjAE613nJmRlV--ms8/edit
+  * https://docs.google.com/forms/d/1PM2Q5oub0m2XT6XVp7bZkXcLmyXwvIxPEqvBXuxWl48/edit
 2. このフォームの編集画面のURLをコピーしてメモしておく。
 3. このフォームについて、必要に応じて、セクション1の選択式設問の選択肢の編集、セクション2以降の編集をする。なお、セクション1への設問の追加や削除しないこと。
-4. このフォームの編集画面のメニューから「事前入力したURLを取得」を実行し、セクション1の3つの設問に任意の値で回答を記入した状態の「事前入力したURL」をコピーしてメモしておく。
+4. このフォームの編集画面のメニューから「事前入力したURLを取得」を実行し、セクション1の3つの設問に任意の値で回答を記入した状態の「事前入力したURL」をメモしておく。
 
 ## Google Apps Script APIの有効化
 
@@ -63,27 +64,31 @@
 
 1. 　Googleスプレッドシートの「機能拡張->Apps Script」で、スクリプト編集画面を開く。すでに開かれていた場合には、古いものを閉じて、新しく開き直す。
 2. 　スクリプト編集画面で、「デプロイ->新しいデプロイ->種類の選択->ウェブアプリ->デプロイ」を実行する。
+3. 　デプロイしたウェブアプリのURLをメモしておく。
 
 ## スプレッドシートのconfigシートの設定
 
 1. 定期報告用のGoogleスプレッドシートを開き直す。カスタムメニューとして「設定」が表示されていることを確認する。
-2. いずれかの「config」シートを選択してから「設定->「config」シート->初期設定」を実行する。
+2. いずれかの「config」シート(たとえば「H_config」)を選択してから「設定->「config」シート->初期設定」を実行する。
   * プロンプトが開いて、formEditUrl　を聞かれたら、 「定期報告用のフォームのformの編集画面のURL」を記入する。
   * プロンプトが開いて、prefilledFormResponseUrlを聞かれたら、「事前入力したURL」を記入する。
   * プロンプトが開いて、published google site urlを聞かれたら、「Googleサイトを公開したURL」を記入する。
-  * dashboardUrlとして,  定期報告用のGoogleサイトのURLを記入する。
+  * プロンプトが開いて、dashboardUrlを聞かれたら、定期報告用のGoogleサイトのURLを記入する。
+  * プロンプトが開いて、webappUrlを聞かれたら、ウェブアプリとしてデプロイしたURLを記入する。
 3. 同様に他の「config」シートについても初期設定を行い、すべての「config」シートの処理を終える。
 
 ## スプレッドシートのscheduleシートでの設定
 
-1. スプレッドシートで、いずれかの「schedule」シートをん選択してから、「設定->「schedule」シート->「O列の開始日・P列の終了日を更新」を実行する。
+1. スプレッドシートで、いずれかの「schedule」シートを選択してから、「設定->「schedule」シート->「O列の開始日・P列の終了日を更新」を実行する。
 2. 同様に他の「schedule」シートについても初期設定を行い、すべての「schedule」シートの処理を終える。
 
 ## リリース
 
-1. Googleサイトの「埋め込み」で、ウェブアプリを「新しいデプロイ」したURLを入力し、ページ上に配置する。
-2. Webページを「公開」する。
-3. WebページのURLを関係者向けに通知する。
+1. Googleサイトで報告の種類ごとのページ内に、「挿入->埋め込む」でウェブアプリをデプロイしたURLを次のように入力し、ページ上にウェブアプリを配置する。
+   * 「毎日：健康観察報告」では、デプロイしたURLの末尾に、`?mode=health`を付与する。
+   * 「2週間に1度：定期報告」では、デプロイしたURLの末尾に、`?mode=report`を付与する。
+3. Googleサイトでサイトを「公開」する。
+4. GoogleサイトのURLを関係者向けに通知する。また、健康観察や定期報告の報告期間が開始されたら、学生の@cuc.global宛で、報告を実施するように促すメールが送られるので、そのメールに従って報告をするように指示をする。
 
 # 運用
 
